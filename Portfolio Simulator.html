@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Portfolio Simulator</title>
+	<!-- Framework -->
+	<script type="text/javascript" src="vendors/stockrender-apprender.1.0.0.min.js"></script>
+	
+	<!-- Vendors script -->
+	<script type="text/javascript" src="vendors/autocomplete/jquery.autocomplete.min.js"></script>
+	<script type="text/javascript" src="vendors/autocomplete/currency-autocomplete.js"></script>
+	<script type="text/javascript" src="vendors/jscolor-1.4.4/jscolor/jscolor.js"></script>
+	
+
+	<!-- Supplementary scripts -->
+	
+	<!-- JS  -->
+		<!-- Only calls functions, doesn't contains them -->
+		<script type="text/javascript" src="js/Main.js"></script> 
+
+		<!-- Stores functions -->
+		<script type="text/javascript" src="js/Trade.js"></script>
+
+		<!-- Stores functions and data -->
+		<script type="text/javascript" src="js/Data.js"></script>
+
+		<!-- Controls Program Flow -->
+		<script type="text/javascript" src="js/ShowHide.js"></script>
+		<script type="text/javascript" src="js/EnterStock.js"></script>
+		<script type="text/javascript" src="js/RowFunctions.js"></script>
+
+		<!-- Settings -->
+		<script type="text/javascript" src="js/Settings.js"></script>
+
+	<!-- jquery -->
+	
+	<!-- CSS -->
+	<link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+
+<body>
+
+	<!-- Settings -->
+	<div2 id="settings" title="Settings">
+		<script> $("#settings").hide(); </script>
+
+		<label id="lblText">Text Size: </label>
+		<label id="lblColor">Color Scheme: </label>
+		<label id="lblTextColor">Text Color: </label>
+		
+		<input id="inpTextColor" class="color" value="000000"></input>
+		
+		<input id="inpColorScheme2" class="color" value="FFFFFF"></input>
+		<input id="inpColorScheme1" class="color" value="A8C6FA"></input>
+		<!-- Note that these two columns are and are supposed to be in reverse orders -->
+
+		<input id="inpText" type="number" min="5" max="30" step="1" value="16">
+		
+		
+	 </div2>
+	 
+	  <button id="opener">Settings</button>
+	<!-- Settings -->
+
+	<div id="body">
+	<!-- Main Window -->
+	<div1 id="Stem" style="display: block">
+		<table id="stem1" class="stem1" cellspacing="0" border="1px" cellpadding="4">
+			<col width="200px">
+			<col width="200px">
+			<col width="200px"> 
+			<col width="50px">
+
+		<tr>
+			<td> Portfolio </td>
+			<td> % Change </td>
+			<td> Ranking </td>
+			<td> </td>
+		</tr>
+
+		<tr>
+			<td colspan="4"> <a href="#" class="myButton1" onclick="showWindow(1)"> + </a> </td>
+			
+		</tr>
+
+		</table>
+
+	</div1>
+
+	<!-- Set Parameters -->
+	<div2 id="Parameters" style="">
+		
+		<form >
+			
+			Portfolio Name:
+			<input type="text" id="portfolioName">
+			<br><br>
+
+			Cash:
+			<input type="text" id="cash">
+			<br><br>
+
+			Commission:
+			<input type="text" id="commission">
+			<br><br>
+
+			<input type="radio" name="type" value="percent" id="percent">%
+			
+			<input type="radio" name="type" value="fixed" selected id="fixed">Fixed
+			<br><br>
+
+			<a href="#" class="myButton1" width="25px" onclick="newPort()"> Next </a>
+		</form>
+
+	</div2>
+
+	<!-- Portfolio Simulator -->
+	<div1 id="Simulator" style="display: block">
+		
+		<table id="sim1" class="sim1" cellspacing="0" border="1px" cellpadding="4">
+				<col width="200px">
+				<col width="200px">
+				<col width="200px"> 
+				<col width="200px"> 
+
+			<tr>
+				<td> Stock </td>
+				<td> Value </td>
+				<td> Amount </td>
+				<td> % Portfolio </td>
+			</tr>
+
+			<tr>
+
+				<td colspan="4">
+				<a href="#" class="myButton1" onclick="showWindow(3)"> + </a>
+				<a href="#" class="myButton1" width="25px" onclick="showWindow(0)"> View Portfolios </a>
+				<a href="#" class="myButton2" width="25px" onclick="showWindow(4)"> Put on Market </a>
+				<a href="#" class="myButton2" width="25px" onclick="updatePrice()"> Update </a>
+				</td>
+
+			</tr>
+
+		</table>
+
+	</div1>
+
+	<!-- Popup windows -->
+	<!-- Make trade (Popup) -->
+
+	<div2 id="Trade" style="display: block">
+
+		<form>
+
+			Stock:
+			<input type="text" value="Enter Ticker" id="autocomplete" onfocus="if (this.value=='Enter Ticker') this.value=''" onblur="if (this.value=='') this.value='Enter Ticker'">
+			Amount:
+			<input type="text" name="amount" id="amount" value="#" onfocus="if (this.value=='#') this.value=''" onblur="if (this.value=='') this.value='#'">
+			<br><br>
+
+			<a href="#" class="myButton1" width="25px" onclick="showWindow(2); buyStock()"> Buy </a>
+			<a href="#" class="myButton1" width="25px" onclick="showWindow(2); shortSell()"> Sell Short </a>
+			<a href="#" class="myButton2" width="25px" onclick="showWindow(2)"> Back </a>
+			<br><br>
+
+			<p1 id="alertStock"></p>
+		</form>
+
+	</div2>
+
+	<!-- Make Sale (Popup) -->
+
+	<div2 id="Sell" style="display: block ">
+		
+			<p id="rowIndex" style="display: none"> </p>
+
+			<p id="stockBeingSold"> </p>
+
+			<p id="currentValue"> </p>
+
+			Amount:
+			<input type="text" id="amountSell" value="#" onfocus="if (this.value=='#') this.value=''" onblur="if (this.value=='') this.value='#'">
+			<br><br>
+
+			<a href="#" class="myButton1" width="25px" onclick="showWindow(2); sellAmount()"> Sell </a>
+			<a href="#" class="myButton2" width="25px" onclick="showWindow(2)"> Back </a>
+	</div2>
+
+	<!-- Make Short Sale (Popup) -->
+
+	<div2 id="ShortSell" style="display: block ">
+		
+		<p id="rowIndex" style="display: none"> </p>
+
+		<p id="stockBeingSold2" > </p>
+
+		<p id="newValue"> </p>
+
+		<p id="amountShort"> </p>
+
+		<p id="netDiff"> </p>
+		<br><br>
+
+		<a href="#" class="myButton1" width="25px" onclick="showWindow(2); shortBuy()"> Complete Short Sell </a>
+		<a href="#" class="myButton2" width="25px" onclick="showWindow(2)"> Back </a>
+	</div2>
+
+	<!-- Put on market place (Popup) -->
+	<div2 id="Market" style="display: block">
+		
+			Monthly Cost:
+			<input type="text" name="monthlyCost" value="Free" onfocus="if (this.value=='Free') this.value=''" onblur="if (this.value=='') this.value='Free'">
+			<br><br>
+
+			<a href="#" class="myButton1" width="25px" onclick=""> Put on Market </a>
+			<a href="#" class="myButton2" width="25px" onclick="showWindow(2)"> Back </a>
+	</div2>
+	
+	</div>
+
+	<script type="text/javascript">showWindow(0);</script>
+	
+</body>
+
+</html>
